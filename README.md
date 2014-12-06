@@ -135,3 +135,13 @@ Within the output directory will be a directory for each failed test which
 includes a README describing why the test failed (e.g., exited non-zero), a
 copy of the test file itself, the actual stdout and stderr of the test, and the
 expected stdout of the test (if specified).
+
+
+## History
+
+This basic approach has been done by lots of tools, and notably
+[dtest](https://github.com/joyent/illumos-joyent/blob/master/usr/src/cmd/dtrace/test/cmd/scripts/dtest.pl).
+This version was originally written for Joyent's [Cloud
+Analytics](https://github.com/joyent/sdc-cloud-analytics) service.  It's also
+used by [Marlin](https://github.com/joyent/manta-marlin) and several Node
+modules.
