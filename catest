@@ -42,6 +42,15 @@ cat_nfailed=0				# number of failed tests run
 cat_npassed=0				# number of successful tests run
 cat_nrun=0				# total number of tests run
 
+
+#
+# Term colors
+#
+TGREEN=$(tput setaf 2)
+TRED=$(tput setaf 1)
+TCLEAR=$(tput sgr0)
+
+
 #
 # Allow environment-specific customizations.
 #
@@ -166,7 +175,7 @@ function emit_failure
 		echo "not ok $(($cat_nrun+1)) $test_label" >> $cat_tapfile
 	fi
 
-	echo "FAILED."
+	echo "${TRED}FAILED.${TCLEAR}"
 	echo "$test_path failed: $reason" > "$odir/README"
 
 	[[ -n "$odir" ]] && echo ">>> failure details in $odir\n"
@@ -184,7 +193,7 @@ function emit_pass
 		echo "ok $((cat_nrun+1)) $test_label" >> $cat_tapfile
 	fi
 
-	echo "success."
+	echo "${TGREEN}success.${TCLEAR}"
 	((cat_npassed++))
 }
 
