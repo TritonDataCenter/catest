@@ -262,13 +262,12 @@ while getopts ":o:t:ackSh?" c $@; do
 done
 
 #
-# Term colors
+# If configured to use terminal colors, record the escape sequences here.
 #
-if [[ $opt_c == "true" && -t 1 ]]
-then
-    TGREEN=$(tput setaf 2)
-    TRED=$(tput setaf 1)
-    TCLEAR=$(tput sgr0)
+if [[ $opt_c == "true" && -t 1 ]]; then
+    TGREEN="$(tput setaf 2)"
+    TRED="$(tput setaf 1)"
+    TCLEAR="$(tput sgr0)"
 fi
 
 shift $((OPTIND-1))
