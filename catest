@@ -290,7 +290,7 @@ if [[ $opt_a = "true" ]]; then
 	cat_tests=$(find $SRC/$cat_tstdir \
 	    -name 'tst*.js' -o -name 'tst*.sh') || \
 	    fail "failed to locate tests in $SRC/$cat_tstdir"
-    cat_tests=$(sort <<< "$cat_tests")
+	cat_tests=$(sort <<< "$cat_tests")
 else
 	for t in $@; do
 		[[ -f $t ]] || fail "cannot find test $t"
