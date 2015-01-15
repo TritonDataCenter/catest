@@ -290,10 +290,11 @@ if [[ $opt_a = "true" ]]; then
 	cat_tests=$(find $SRC/$cat_tstdir \
 	    -name 'tst*.js' -o -name 'tst*.sh') || \
 	    fail "failed to locate tests in $SRC/$cat_tstdir"
+    cat_tests=$(sort <<< "$cat_tests")
 else
 	for t in $@; do
 		[[ -f $t ]] || fail "cannot find test $t"
-		cat_tests="$(abspath $t) $cat_tests"
+		cat_tests="$cat_tests $(abspath $t)"
 	done
 fi
 
@@ -337,7 +338,7 @@ fi
 #
 printf "===================================================\n\n"
 
-for t in $(echo $cat_tests | sort); do
+for t in $cat_tests; do
 	execute_test $t
 	((cat_nrun++))
 done
