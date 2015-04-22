@@ -277,7 +277,7 @@ shift $((OPTIND-1))
 #
 # Initialize paths and other environment variables.
 #
-export SRC=$(abspath $(dirname $0)/..)
+export SRC=$(abspath $(dirname $0)/../..)
 export PATH=$SRC/deps/ctf2json:$PATH
 [[ -n $HOST ]] || export HOST=$(hostname)
 
