@@ -6,7 +6,7 @@
 #
 
 #
-# Copyright (c) 2014, Joyent, Inc.
+# Copyright (c) 2018, Joyent, Inc.
 #
 
 #
@@ -19,6 +19,7 @@ shopt -s xpg_echo
 # Global configuration
 #
 cat_arg0=$(basename $0)			# canonical name of "catest"
+cat_version="1.0.0"			# version of catest
 cat_outbase="catest.$$"			# output directory name
 cat_tstdir="test"			# test directory
 
@@ -31,7 +32,6 @@ opt_c=false				# colorize test results
 opt_k=false				# keep output of successful tests
 opt_o="/var/tmp"			# parent directory for output directory
 opt_t=					# TAP format output file
-opt_S=false				# Non-strict mode for js tests
 
 #
 # Current state
@@ -109,15 +109,24 @@ The following options may be specified:
 			(ignores other non-option arguments)
 	-c		Color code test result messages
 	-h		Output this message
+	-v		Print version of catest
 	-k		Keep output from all tests, not just failures
 	-o directory	Specifies the output directory for tests
 			(default: /var/tmp)
-	-S		Turn off strict mode for tests
 	-t file		Emit summary output in TAP format
 
 USAGE
 
 	exit 2
+}
+
+#
+# version: prints the version of catest and exits.
+#
+function version
+{
+	echo "$cat_version"
+	exit 0
 }
 
 #
@@ -225,11 +234,7 @@ function execute_test
 	esac
 
 	pushd "$test_dir" >/dev/null
-	if [[ $opt_S ]]; then
-		$EXEC $test_name -S >$test_odir/$$.out 2>$test_odir/$$.err
-	else
-		$EXEC $test_name >$test_odir/$$.out 2>$test_odir/$$.err
-	fi
+	$EXEC $test_name >$test_odir/$$.out 2>$test_odir/$$.err
 	execres=$?
 	popd > /dev/null
 
@@ -251,11 +256,12 @@ function execute_test
 	emit_pass "$test_label"
 }
 
-while getopts ":o:t:ackSh?" c $@; do
+while getopts ":o:t:ackhv?" c $@; do
 	case "$c" in
-	a|c|k|S) 	eval opt_$c=true ;;
-	o|t) 	eval opt_$c="$OPTARG" ;;
+	a|c|k)	eval opt_$c=true ;;
+	o|t)	eval opt_$c="$OPTARG" ;;
 	h)	usage ;;
+	v)	version ;;
 	:) 	usage "option requires an argument -- $OPTARG" ;;
 	*) 	usage "invalid option: $OPTARG" ;;
 	esac
